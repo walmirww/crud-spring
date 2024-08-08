@@ -1,5 +1,7 @@
 package com.loiane.model;
 
+import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,6 +18,9 @@ import lombok.Data;
 
 @Data
 @Entity
+// @Table(name = "cursos")
+@SQLDelete(sql = "UPDATE Course SET status = 'Inactive' WHERE id = ?")
+@Where(clause = "status = 'Active'")
 public class Course {
 
     @Id
@@ -34,5 +39,27 @@ public class Course {
     @Column(length = 10, nullable = false)
     @Pattern(regexp = "front-end|back-end")
     private String category;
+
+    @NotNull
+    @Length(max = 10)
+    @Pattern(regexp = "Active|Inactive")
+    @Column(length = 10, nullable = false)
+    private String status = "Active";
     
 }
+/*@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonProperty("_id")
+    private long id;
+
+    @NotNull
+    @NotBlank
+    @Length(min = 5, max = 100)
+    @Column(length = 100, nullable = false)
+    private String name;
+
+    @NotNull
+    @Length(max = 10)
+    @Column(length = 10, nullable = false)
+    @Pattern(regexp = "front-end|back-end")
+    private String category; */
