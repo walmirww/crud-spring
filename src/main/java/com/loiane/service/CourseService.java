@@ -5,11 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.loiane.dto.CourseDTO;
 import com.loiane.dto.mapper.CourseMapper;
-import com.loiane.enums.Category;
 import com.loiane.exception.RecordNotFoundException;
 import com.loiane.repository.CourseRepository;
 
@@ -46,7 +44,7 @@ public class CourseService {
         return dtos;
     }  */
 
-    public CourseDTO findById(@PathVariable @NotNull @Positive long id) {
+    public CourseDTO findById(@NotNull @Positive long id) {
         return courseRepository.findById(id).map(courseMapper::toDTO)
                 .orElseThrow(()-> new RecordNotFoundException(id));
     }
@@ -63,13 +61,13 @@ public class CourseService {
         return courseRepository.findById(id)
             .map(recordFound -> {
                 recordFound.setName(course.name());
-                recordFound.setCategory(Category.FRONT_END);
+                recordFound.setCategory(courseMapper.convertCategoryValue(course.category()));
                 return courseMapper.toDTO(courseRepository.save(recordFound));               
             })
             .orElseThrow(()-> new RecordNotFoundException(id));  
     }     
     
-    public void delete(@PathVariable @NotNull @Positive long id) {
+    public void delete(@NotNull @Positive long id) {
         courseRepository.delete(courseRepository.findById(id)
             .orElseThrow(()-> new RecordNotFoundException(id)));
     }
