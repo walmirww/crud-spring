@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.loiane.model.Course;
-import com.loiane.repository.CourseRepository;
 import com.loiane.service.CourseService;
 
 import jakarta.validation.Valid;
@@ -42,11 +41,15 @@ public class CursoController {
     }   
     
     @GetMapping("/{id}")
-    public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive long id) {
+    public Course findById(@PathVariable @NotNull @Positive long id) {
+        return courseService.findById(id);
+    }
+
+    /*public ResponseEntity<Course> findById(@PathVariable @NotNull @Positive long id) {
         return courseService.findById(id)
             .map(recordFound -> ResponseEntity.ok().body(recordFound))
             .orElse(ResponseEntity.notFound().build());
-    }
+    } */
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
@@ -55,27 +58,29 @@ public class CursoController {
     }
 
     @PutMapping("/{id}")
+    public Course update(@PathVariable @NotNull @Positive long id, @RequestBody @Valid Course course) {
+        return courseService.update(id, course);
+    }
+
+    /*@PutMapping("/{id}")
     public ResponseEntity<Course> update(@PathVariable @NotNull @Positive long id, @RequestBody @Valid Course course) {
         return courseService.update(id, course)
             .map(recordFound -> ResponseEntity.ok().body(recordFound))
             .orElse(ResponseEntity.notFound().build());
-    }
+    } */
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable @NotNull @Positive Long id) {
+        courseService.delete(id);
+    }  
+
+    /*@DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive long id) {
         if (courseService.delete(id)){
             return ResponseEntity.noContent().<Void>build();
         }
         return ResponseEntity.notFound().build();
-    }
-    
-    /*public ResponseEntity<Course> create(@RequestBody Course course) {
-        //System.out.println(course.getName());
-        //return courseRepository.save(course);
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(courseRepository.save(course));
-    }*/
-    
-    
+    }     */
     
 }
