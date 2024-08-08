@@ -1,13 +1,19 @@
 package com.loiane.model;
 
 import org.hibernate.annotations.Where;
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.validator.constraints.Length;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.loiane.enums.Category;
+import com.loiane.enums.converters.CategoryConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,10 +41,11 @@ public class Course {
     private String name;
 
     @NotNull
-    @Length(max = 10)
+    //@Length(max = 10)
     @Column(length = 10, nullable = false)
-    @Pattern(regexp = "front-end|back-end")
-    private String category;
+    //@Pattern(regexp = "front-end|back-end")
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     @NotNull
     @Length(max = 10)
