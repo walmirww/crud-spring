@@ -55,21 +55,31 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "course")
     private List<Lesson> lessons = new ArrayList<>();
-    
+
 }
-/*@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonProperty("_id")
-    private long id;
-
-    @NotNull
-    @NotBlank
-    @Length(min = 5, max = 100)
-    @Column(length = 100, nullable = false)
-    private String name;
-
-    @NotNull
-    @Length(max = 10)
-    @Column(length = 10, nullable = false)
-    @Pattern(regexp = "front-end|back-end")
-    private String category; */
+/*
+ * @Id
+ * 
+ * @GeneratedValue(strategy = GenerationType.AUTO)
+ * 
+ * @JsonProperty("_id")
+ * private long id;
+ * 
+ * @NotNull
+ * 
+ * @NotBlank
+ * 
+ * @Length(min = 5, max = 100)
+ * 
+ * @Column(length = 100, nullable = false)
+ * private String name;
+ * 
+ * @NotNull
+ * 
+ * @Length(max = 10)
+ * 
+ * @Column(length = 10, nullable = false)
+ * 
+ * @Pattern(regexp = "front-end|back-end")
+ * private String category;
+ */

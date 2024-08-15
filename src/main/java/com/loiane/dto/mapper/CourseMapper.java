@@ -1,7 +1,6 @@
 package com.loiane.dto.mapper;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -19,16 +18,16 @@ public class CourseMapper {
             return null;
         }
         List<LessonDTO> lessons = course.getLessons()
-            .stream()
-            .map(lesson -> new LessonDTO(lesson.getId(), 
-                                         lesson.getName(), 
-                                         lesson.getYoutubeUrl()))
-            .collect(Collectors.toList());
+                .stream()
+                .map(lesson -> new LessonDTO(lesson.getId(),
+                        lesson.getName(),
+                        lesson.getYoutubeUrl()))
+                .collect(Collectors.toList());
         return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue(), lessons);
     }
 
     public Course toEntity(CourseDTO courseDTO) {
-        //return new Course(courseDTO.id(), courseDTO.name(), courseDTO.category());
+        // return new Course(courseDTO.id(), courseDTO.name(), courseDTO.category());
         if (courseDTO == null) {
             return null;
         }
@@ -46,9 +45,9 @@ public class CourseMapper {
             return null;
         }
         return switch (value) {
-            case "front-end" -> Category.FRONT_END;      
-            case "back-end" -> Category.BACK_END;      
-            default -> throw new IllegalArgumentException("Invalid value: " + value);          
+            case "front-end" -> Category.FRONT_END;
+            case "back-end" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Invalid value: " + value);
         };
     }
 
