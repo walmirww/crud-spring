@@ -9,6 +9,7 @@ import com.loiane.dto.CourseDTO;
 import com.loiane.dto.LessonDTO;
 import com.loiane.enums.Category;
 import com.loiane.model.Course;
+import com.loiane.model.Lesson;
 
 @Component
 public class CourseMapper {
@@ -27,18 +28,33 @@ public class CourseMapper {
     }
 
     public Course toEntity(CourseDTO courseDTO) {
-        // return new Course(courseDTO.id(), courseDTO.name(), courseDTO.category());
+
         if (courseDTO == null) {
             return null;
         }
+
         Course course = new Course();
         if (courseDTO.id() != null) {
             course.setId(courseDTO.id());
         }
         course.setName(courseDTO.name());
         course.setCategory(convertCategoryValue(courseDTO.category()));
+
+        List<Lesson> lessons = courseDTO.lessons().stream().map(lessonDTO -> {
+            var lesson = new Lesson();   
+            if (lessonDTO.id() != null) {
+                lesson.setId(lessonDTO.id());
+            }                   
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+            lesson.setCourse(course);
+            return lesson;
+        }).collect(Collectors.toList());
+        course.setLessons(lessons);
+
         return course;
     }
+
 
     public Category convertCategoryValue(String value) {
         if (value == null) {
